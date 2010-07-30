@@ -287,8 +287,9 @@ namespace MongoDB
                     try
                     {
                         var seconds = double.Parse(value);
-
-                        ConnectionTimeout = seconds > 0 ? TimeSpan.FromSeconds(seconds) : DefaultConnectionTimeout;
+                        
+                        // A zero timeout means wait indefinately.
+                        ConnectionTimeout = seconds >= 0 ? TimeSpan.FromSeconds(seconds) : DefaultConnectionTimeout;
                     }
                     catch(FormatException exception)
                     {
