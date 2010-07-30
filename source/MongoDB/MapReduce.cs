@@ -56,6 +56,22 @@ namespace MongoDB
         public MapReduceCommand Command { get; private set; }
 
         /// <summary>
+        /// Executes the MapReduce.
+        /// </summary>
+        /// <remarks>
+        /// This method will only run the MapReduce if it has not already been run. This helpful when the 
+        /// query is long-running by allowing the client to run the query asyncrohously before returning 
+        /// the results.
+        /// </remarks>
+        public void Execute()
+        {
+            if (Result == null)
+                RetrieveData();
+            if (Result == null || Result.Ok == false)
+                throw new InvalidOperationException("An error was returned from execute.");
+        }
+
+        /// <summary>
         ///   Gets the documents.
         /// </summary>
         /// <value>The documents.</value>
